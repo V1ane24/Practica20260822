@@ -1,4 +1,9 @@
 require('dotenv').config();
+
+// Configurar DNS para resolver correctamente MongoDB Atlas
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '1.1.1.1']);
+
 const mongoose = require('mongoose');
 const Usuario = require('../models/usuario.model');
 
@@ -20,14 +25,15 @@ const crearUsuarioInicial = async () => {
     const usuarioAdmin = new Usuario({
       nombre: 'Administrador Inicial',
       email: 'admin@correo.com',
-      password: 'Admin123', // El modelo se encarga de encriptarla con bcrypt
+      password: 'Admin123',
       rol: 'ADMIN'
     });
 
     await usuarioAdmin.save();
+
     console.log('Usuario ADMIN creado con éxito:');
-    console.log(`Email: admin@correo.com`);
-    console.log(`Password: Admin123`);
+    console.log('Email: admin@correo.com');
+    console.log('Password: Admin123');
 
   } catch (error) {
     console.error('Error al crear el usuario inicial:', error.message);
